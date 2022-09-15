@@ -3,13 +3,13 @@ class ApplicationController < Sinatra::Base
   
   # Add your routes here
   get "/" do
-    { message: "Good luck with your project!" }.to_json
+    { message: "The Name Game!" }.to_json
   end
 
   #players routing
   get '/players' do
     players = Player.all
-    players.to_json
+    players.to_json(include :guesses)
   end
 
   post '/players' do
@@ -28,7 +28,7 @@ class ApplicationController < Sinatra::Base
 
   get '/guesses' do
     guesses = Guess.all
-    guesses.to_json
+    guesses.to_json(include :players)
   end
 
   post '/guesses' do
@@ -45,5 +45,9 @@ class ApplicationController < Sinatra::Base
     guess.to_json
   end
 
+  delete '/guesses/:id' do
+    guess = Guess.find(params[:id])
+    guess.destory
+  end
 
 end

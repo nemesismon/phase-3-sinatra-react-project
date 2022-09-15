@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(version: 2022_09_15_142906) do
   create_table "guesses", force: :cascade do |t|
     t.string "actor"
     t.integer "player_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "players", force: :cascade do |t|
