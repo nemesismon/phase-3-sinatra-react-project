@@ -7,44 +7,45 @@ class ApplicationController < Sinatra::Base
 
   #players routing
   get '/players' do
-    Player.all.to_json
+    Player.all.to_json(include: :guesses)
   end
 
   post '/players' do
     Player.create(name: params[:name])
-    Player.all.to_json
+    Player.all.to_json(include: :guesses)
   end
 
   patch '/players/:id' do
     player = Player.find(id: params[:id])
     player.update(name: params[:name])
-    Player.all.to_json
+    Player.all.to_json(include: :guesses)
   end
 
 
   #guesses routing
 
   get '/guesses' do
-    Guess.all.to_json
+    Player.all.to_json(include: :guesses)
   end
 
   post '/guesses' do
     Guess.create(
       actor: params[:actor],
+      player_id: params[:player_id]
     )
-    Guess.all.to_json
+    Player.all.to_json(include: :guesses)
   end
 
   patch '/guesses/:id' do
-    guess = Guess.find_by(params[:id])
+    guess = Guess.find(params[:id])
     guess.update(actor: params[:actor])
-    Guess.all.to_json
+    Player.all.to_json(include: :guesses)
   end
 
   delete '/guesses/:id' do
     guess = Guess.find(params[:id])
     guess.destroy
-    Guess.all.to_json
+    Player.all.to_json(include: :guesses)
   end
 
 end
