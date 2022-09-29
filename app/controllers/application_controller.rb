@@ -10,6 +10,11 @@ class ApplicationController < Sinatra::Base
     Player.all.to_json(include: :guesses)
   end
 
+  get '/players/:id' do
+    player = Player.find(id: params[:id])
+    player.to_json(include: :guesses)
+  end
+
   post '/players' do
     Player.create(name: params[:name])
     Player.all.to_json(include: :guesses)
