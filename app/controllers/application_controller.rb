@@ -2,7 +2,7 @@ class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
 
   #players routing
-  get '/' || '/players' do
+  get '/players' do
     Player.all.to_json(include: :guesses)
   end
 
@@ -12,8 +12,7 @@ class ApplicationController < Sinatra::Base
   end
 
   #guesses routing
-
-  post '/guesses' do #works
+  post '/guesses' do
     player = Player.find(params[:player_id])
     guess = player.guesses.create(
       actor: params[:actor],
@@ -27,7 +26,7 @@ class ApplicationController < Sinatra::Base
     guess.to_json
   end
 
-  delete '/guesses/:id' do # works
+  delete '/guesses/:id' do
     guess = Guess.find(params[:id])
     guess.destroy
   end
